@@ -1,0 +1,66 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>De Lijn Map</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"
+    type="text/javascript" charset="utf-8"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"
+    type="text/javascript" charset="utf-8"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body { margin:0; padding:0; background-color: #9BD4F5; }
+    #map { position:absolute; top:0.5%; bottom:0.5%; left: 25%; right:0.5%; border-radius: 15px;}
+    #provdiv {position: absolute; top: 25%; left:0.5%; width:24%;}
+    #linediv {position: absolute; top: 35%; left:0.5%; width:24%;}
+    #dirdiv {position: absolute; top: 45%; left:0.5%; width:24%;}
+    #titlediv {position: absolute; top: 0.5%; left: 0.5%; background-color: red;}
+    #logo {position: absolute; top: 0.5%; left: 0.5%; right: 76%; width: 24%; border-radius: 15px;}
+    #loading {position: absolute; top: 60%; left: 11%;}
+    .mapboxgl-marker {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border:1px solid gray;
+        background-color:lightblue;
+    }
+    .bus {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border:1px solid gray;
+        background-color:red;
+    }
+  </style>
+</head>
+<body>
+  <img id="logo" src="{{ url_for('static', filename='logo.png')}}">
+  <div id="province_div">
+    {% from "_formhelpers.html" import render_field %}
+    <form>
+      {{ province_line_form.csrf_token }}
+      <div class="form-group" id="provdiv" style="display: inline-block;">
+        {{render_field(province_line_form.provinceField, class_="form-control", placeholder="Select Province")}}
+      </div>
+      <div class="form-group" id="linediv" style="display: inline-block;">
+        {{render_field(province_line_form.lineField, class_="form-control", placeholder="Select Line")}}
+      </div>
+      <div class="form-group" id="dirdiv" style="display: inline-block;">
+        {{render_field(province_line_form.directionField, class_="form-control", placeholder="Select Direction")}}
+      </div>
+    </form>
+  </div>
+  <div id="loading" class="spinner-border text-dark"></div>
+
+  <div id='map'></div>
+  <script src="{{ url_for('static', filename='js/map_script.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/form_script.js')}}"></script>
+</body>
+
+</html>
